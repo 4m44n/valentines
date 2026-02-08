@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Valentine</title>
+
+<style>
+
+/* BACKGROUND */
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fad0ff);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+/* PASSWORD */
+#lockScreen{
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(20px);
+padding:40px;
+border-radius:25px;
+text-align:center;
+color:white;
+box-shadow:0 8px 32px rgba(0,0,0,0.3);
+}
+
+input{
+padding:10px;
+border-radius:20px;
+border:none;
+margin-top:10px;
+}
+
+.unlockBtn{
+padding:10px 20px;
+border:none;
+border-radius:20px;
+background:#ff4d6d;
+color:white;
+cursor:pointer;
+margin-top:10px;
+}
+
+/* MAIN PAGE */
+#mainPage{display:none;}
+
+.container{
+position:relative;
+width:90%;
+max-width:560px;
+height:540px;
+text-align:center;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(20px);
+border-radius:30px;
+padding:20px;
+box-shadow:0 8px 32px rgba(0,0,0,0.3);
+}
+
+/* CARD */
+.card3d{
+width:240px;
+height:240px;
+margin:20px auto;
+border-radius:25px;
+overflow:hidden;
+}
+
+.card3d img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+/* BUTTONS */
+button{
+padding:12px 25px;
+font-size:18px;
+border:none;
+border-radius:25px;
+cursor:pointer;
+position:absolute;
+background:rgba(255,255,255,0.2);
+color:white;
+}
+
+#yesBtn{left:25%;bottom:20px;background:#ff4d6d;}
+#noBtn{right:25%;bottom:20px;}
+
+/* POPUP */
+.popup{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:rgba(255,255,255,0.2);
+backdrop-filter:blur(20px);
+padding:20px;
+border-radius:20px;
+width:300px;
+display:none;
+color:white;
+text-align:center;
+}
+
+/* FLOAT HEARTS */
+.heart{
+position:fixed;
+bottom:-50px;
+font-size:24px;
+animation:floatUp 6s linear infinite;
+}
+@keyframes floatUp{
+to{transform:translateY(-110vh);}
+}
+
+/* RING */
+.ring{
+font-size:90px;
+animation:pop 1s ease forwards;
+}
+@keyframes pop{
+from{transform:scale(0);}
+to{transform:scale(1);}
+}
+
+/* PETALS */
+.petal{
+position:fixed;
+top:-50px;
+font-size:24px;
+animation:fall linear forwards;
+}
+@keyframes fall{
+to{transform:translateY(110vh) rotate(360deg);}
+}
+
+/* HEART EXPLOSION */
+.heartParticle{
+position:absolute;
+font-size:20px;
+animation:explode 1s forwards;
+}
+@keyframes explode{
+to{
+transform:translate(
+calc(200px - 400px * var(--x)),
+calc(200px - 400px * var(--y))
+) scale(0);
+opacity:0;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- PASSWORD -->
+<div id="lockScreen">
+<h2>Enter Password 💖</h2>
+<input type="password" id="pass">
+<br>
+<button class="unlockBtn" onclick="unlock()">Unlock</button>
+</div>
+
+<!-- MAIN -->
+<div id="mainPage">
+<div class="container" id="box">
+
+<h1 style="color:white;">
+💖 Will You Be My Valentine, Achummmooooi? 💖
+</h1>
+
+<div class="card3d">
+<img id="slide" src="Amshej (2).jpeg">
+</div>
+
+<p style="color:white;">Forever Yours — Amiiii ❤️</p>
+
+<button onclick="openLetter()" style="top:380px;left:50%;transform:translateX(-50%);">
+💌 Love Letter
+</button>
+
+<button id="yesBtn" onclick="sayYes()">YES 💘</button>
+<button id="noBtn">NO 🙈</button>
+
+</div>
+</div>
+
+<!-- LETTER -->
+<div class="popup" id="letter">
+<h2>My Love Achummmooooi 💖</h2>
+<p>
+From the moment you came into my life,<br>
+everything became beautiful.<br><br>
+Love you forever ❤️<br>
+— Amiiii
+</p>
+<button onclick="closeLetter()">Close</button>
+</div>
+
+<script>
+
+/* PASSWORD */
+function unlock(){
+if(pass.value==="AmShej@"){
+lockScreen.style.display="none";
+mainPage.style.display="block";
+}else{
+alert("Wrong Password 😜");
+}
+}
+
+/* SLIDESHOW */
+const images=[
+"Amshej (2).jpeg",
+"amshej.jpeg",
+"amshej12.jpeg",
+"amshej@.jpeg"
+];
+let i=0;
+setInterval(()=>{
+i=(i+1)%images.length;
+slide.src=images[i];
+},2000);
+
+/* FLOAT HEARTS */
+setInterval(()=>{
+const h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},500);
+
+/* MOVE NO */
+const noBtn=document.getElementById("noBtn");
+const box=document.getElementById("box");
+
+noBtn.onmouseover=noBtn.onclick=()=>{
+const r=box.getBoundingClientRect();
+noBtn.style.left=Math.random()*(r.width-100)+"px";
+noBtn.style.top=Math.random()*(r.height-50)+"px";
+};
+
+/* LETTER */
+function openLetter(){letter.style.display="block";}
+function closeLetter(){letter.style.display="none";}
+
+/* YES PAGE */
+function sayYes(){
+
+document.body.innerHTML=`
+<div style="
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ff5f8f,#ff7eb3,#fad0ff,#ffd1ff);
+color:white;
+text-align:center;
+overflow:hidden;
+position:relative;
+font-family:Arial;
+">
+
+<audio id="bgMusic" loop>
+<source src="love.mp3" type="audio/mpeg">
+</audio>
+
+<div id="heartExplosion"></div>
+
+<img src="flower.png"
+style="width:120px;position:absolute;top:40px;left:40px;">
+
+<img src="flower.png"
+style="width:120px;position:absolute;bottom:40px;right:40px;">
+
+<div class="ring">💍</div>
+
+<h1 style="font-size:60px;text-shadow:0 0 20px white;">
+Will You Marry Me Achummmooooi? 💖
+</h1>
+
+<p style="font-size:26px;">
+Forever Yours — Amiiii ❤️
+</p>
+
+<img src="Amshej (2).jpeg"
+style="
+width:200px;
+height:200px;
+border-radius:25px;
+border:5px solid white;
+box-shadow:0 0 30px white;
+">
+
+<canvas id="fireworks"></canvas>
+</div>
+`;
+
+/* PLAY MUSIC */
+setTimeout(()=>{
+document.getElementById("bgMusic").play();
+},300);
+
+startFireworks();
+startPetals();
+heartExplosion();
+}
+
+/* PETALS */
+function startPetals(){
+setInterval(()=>{
+const p=document.createElement("div");
+p.className="petal";
+p.innerHTML="🌹";
+p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=(4+Math.random()*3)+"s";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),7000);
+},300);
+}
+
+/* HEART EXPLOSION */
+function heartExplosion(){
+const c=document.getElementById("heartExplosion");
+for(let i=0;i<40;i++){
+const h=document.createElement("div");
+h.className="heartParticle";
+h.innerHTML="❤️";
+h.style.setProperty("--x",Math.random());
+h.style.setProperty("--y",Math.random());
+h.style.left="50%";
+h.style.top="50%";
+c.appendChild(h);
+setTimeout(()=>h.remove(),1000);
+}
+}
+
+/* FIREWORKS */
+function startFireworks(){
+const c=document.getElementById("fireworks");
+const x=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+
+setInterval(()=>{
+const px=Math.random()*c.width;
+const py=Math.random()*c.height/2;
+for(let i=0;i<30;i++){
+x.beginPath();
+x.arc(px+Math.random()*80-40,
+py+Math.random()*80-40,
+3,0,6.28);
+x.fillStyle=`hsl(${Math.random()*360},100%,50%)`;
+x.fill();
+}
+},700);
+}
+
+</script>
+</body>
+</html>
